@@ -2,14 +2,17 @@
   lib,
   buildPythonPackage,
   fetchFromGitHub,
-  pyparsing,
   pytestCheckHook,
+  pylatexenc,
+  pytest-xdist,
+  pytest-cov,
+  jupyter,
   pythonOlder,
 }:
 
 buildPythonPackage rec {
   pname = "bibtexparser";
-  version = "1.4.1";
+  version = "2.0.0b7";
   format = "setuptools";
 
   disabled = pythonOlder "3.7";
@@ -18,12 +21,12 @@ buildPythonPackage rec {
     owner = "sciunto-org";
     repo = "python-${pname}";
     rev = "refs/tags/v${version}";
-    hash = "sha256-YMkLSx7L2srLINZa6Ec0rPoxE2SdMv6CnI4BpHgHuzM=";
+    hash = "sha256-C4FHMrR9hZmjyaUdmJuIlSW66VZeVLF4MLc1b6qD5ng=";
   };
 
-  propagatedBuildInputs = [ pyparsing ];
+  dependencies = [ pylatexenc ];
 
-  nativeCheckInputs = [ pytestCheckHook ];
+  nativeCheckInputs = [ pytestCheckHook pytest-xdist pytest-cov ];
 
   pythonImportsCheck = [ "bibtexparser" ];
 
@@ -31,8 +34,7 @@ buildPythonPackage rec {
     description = "Bibtex parser for Python";
     homepage = "https://github.com/sciunto-org/python-bibtexparser";
     license = with licenses; [
-      lgpl3Only # or
-      bsd3
+      mit
     ];
   };
 }
